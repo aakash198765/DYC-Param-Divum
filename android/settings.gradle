@@ -1,0 +1,13 @@
+rootProject.name = 'DocumentReader'
+include ':@react-native-community_progress-bar-android'
+project(':@react-native-community_progress-bar-android').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/progress-bar-android/android')
+include ':react-native-dl-api'
+project(':react-native-dl-api').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dl-api/android')
+include ':react-native-customized-image-picker'
+project(':react-native-customized-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-customized-image-picker/android')
+include ':react-native-customized-image-picker'
+project(':react-native-customized-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-customized-image-picker/android')
+include ':react-native-customized-image-picker'
+project(':react-native-customized-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-customized-image-picker/android')
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
