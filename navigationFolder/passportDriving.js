@@ -39,11 +39,11 @@ export const PassportDrivingSelection = ({ navigation, route }) => {
      
 
        <TouchableOpacity onPress={navigateToPassportScanner}  style={styles.buttonContainer} activeOpacity={0.6} >   
-           <Text style={styles.buttonText}> PASSPORT</Text> 
+           <Text style={styles.buttonText}>Passport</Text> 
        </TouchableOpacity>
 
        <TouchableOpacity onPress={navigateToDLScanner}  style={styles.buttonContainer} activeOpacity={0.6} >   
-           <Text style={styles.buttonText}> DRIVING LICENCE</Text>   
+           <Text style={styles.buttonText}>Driving Licence</Text>   
        </TouchableOpacity>
       
      
@@ -69,10 +69,12 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'center', 
         borderRadius: 5,
-        marginVertical: 10,
+        marginVertical: 4.5, 
     },
     buttonText: {
-        color: 'white'
+        color: 'white',
+        fontFamily: 'Montserrat-Rugular',
+        fontSize: 14,
     },
     imageBackground: {
       flex: 1,

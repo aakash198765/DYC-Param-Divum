@@ -129,14 +129,18 @@ text1: {
 item: { 
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor:  '#f2f2f2',
+    backgroundColor:  'black', 
     padding: 10,
-    marginVertical: 1,
+    marginVertical: 2.5,
     marginHorizontal: '1%',
     width: '98%',
+    height: 45,
+    borderRadius: 5, 
   },
 title: {
-    fontSize: 16,
+    color: 'white',
+    fontFamily: 'Montserrate-Regular',
+    fontSize: 14,
   },
   example: {
     marginVertical: 24,
@@ -144,4 +148,5 @@ title: {
 
 });
 
-export default AAIDashboard;
+export default AAIDashboard; 
+

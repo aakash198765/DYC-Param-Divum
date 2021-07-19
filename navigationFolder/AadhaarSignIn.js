@@ -94,27 +94,28 @@ const SignIn = ({navigation, props}) => {
              
             <Image  source={require('../images/aadharSignIn.png')}  style={styles.logo}  /> 
 
+        <View style={{flex:1, justifyContent: 'flex-end', marginBottom: 56}}> 
             <Card style={{height: 300, justifyContent: 'center', backgroundColor: 'white', borderRadius: 10, borderColor: 'white'}}> 
-            <Input placeholder='Enter your Aadhaar Number' onChangeText={setAadhaarHandler} size='large' style={{...styles.inputStyle, marginTop: 20}}/>
+            <Input placeholder='Enter your Aadhaar Number' onChangeText={setAadhaarHandler} size='large' style={styles.inputStyle}  /> 
             <Input placeholder='Enter your Registered Mobile Number' onChangeText={setMobileNumberHandler} style={styles.inputStyle} size='large'/> 
           
            {/* <Button style={styles.button}  onPress={getOtp} title='GET OTP' color='black' /> 
             <Text></Text>
             <Button style={styles.button}  onPress={nav} title='  VERIFY  ' color='black'  /> 
            */} 
-           <Text> </Text>
            
+           <View style={{marginTop: 24}}>
+                  <TouchableOpacity  onPress={getOtp} style={styles.buttonContainer} activeOpacity={0.6} >  
+                      <Text style={styles.buttonText}>Get OTP</Text> 
+                  </TouchableOpacity>
 
-            <TouchableOpacity  onPress={getOtp} style={styles.buttonContainer} activeOpacity={0.6} >  
-               <Text style={styles.buttonText}>Get OTP</Text> 
-           </TouchableOpacity>
-
-           <TouchableOpacity onPress={nav}  style={styles.buttonContainer} activeOpacity={0.6} >   
-             <Text style={styles.buttonText}>Verify</Text>     
-           </TouchableOpacity>
-  
-            </Card>
-            </View>
+                 <TouchableOpacity onPress={nav}  style={styles.buttonContainer} activeOpacity={0.6} >   
+                      <Text style={styles.buttonText}>Verify</Text>     
+                 </TouchableOpacity>
+           </View>
+          </Card>
+       </View>
+      </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView> 
@@ -139,15 +140,19 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center',  
     borderRadius: 5,
-    marginVertical: 5,
+    marginVertical: 4.5, 
 },
   buttonText: {
-    color: 'white'
+    color: 'white',
+    fontSize: 14, 
+    fontFamily: 'Montserrat-Regular'
 },
 inputStyle: {
   borderColor: 'black',
-  marginTop: 10,
   borderRadius: 8,
+  fontFamily: 'Montserrat-Light', 
+  fontSize: 12,
+  marginVertical: 4.5,
 },
 logo: {
   width: 350,

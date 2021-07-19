@@ -18,7 +18,7 @@ const Welcome = ( {route, navigation} ) => {
           <Text style={styles.text} category='h1'>DIGI</Text>
           <Text style={styles.text} category='h1'>YATRA</Text> 
           <View style={{flexDirection: 'row'}}>
-             <Text style={{  marginVertical: 14, fontWeight: 'bold' }} category='s1'> {"⦃param⦄"} </Text>   
+             <Text style={{  marginVertical: 14, fontFamily:'Montserrat-Medium', fontSize: 14 }} > {"⦃param⦄"} </Text>    
              <Image  source={require('../images/logo.png')}  style={styles.logo}  /> 
           </View>
        </View>
@@ -33,7 +33,7 @@ const Welcome = ( {route, navigation} ) => {
 
         <TouchableOpacity onPress={()=>navigation.navigate('aaiDashboard')}  style={styles.buttonContainer} activeOpacity={0.6} >   
              <Text style={styles.buttonText}>Airport Authority</Text>    
-        </TouchableOpacity>
+        </TouchableOpacity> 
     </View> 
 
    </ImageBackground>
@@ -44,7 +44,7 @@ const Welcome = ( {route, navigation} ) => {
 const styles = StyleSheet.create({
 
 content: {
-  flexDirection: 'column',
+  flexDirection: 'column', 
 },
 text1: {
   
@@ -58,13 +58,16 @@ buttonContainer: {
     alignItems: 'center', 
     justifyContent: 'center',  
     borderRadius: 5,
-    marginVertical: 10,
+    marginVertical: 4.5,
 },
 buttonText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Montserrat-Rugular',
+    fontSize: 14,
 },
-text: {
-  fontWeight: 'bold'
+text: { 
+  fontFamily: 'Montserrat-Medium',
+  fontSize: 36,
 },
 logo: {
   marginHorizontal: 5,

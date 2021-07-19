@@ -48,7 +48,7 @@ export const Driving = ( {route, navigation} ) => {
       <TopNavigation title='Driving License Details' alignment='center' accessoryLeft={BackAction} style={{fontWeight: 'bold', }} />
       <Divider/>
       <Layout style={{ flex: 1, padding: 20 , backgroundColor: 'white' }}>  
-      <Layout style={{  backgroundColor: 'white', justifyContent: 'center', maxHeight: '80%', borderWidth: 2, borderColor: 'black', borderRadius: 20, }}> 
+      <Layout style={{  backgroundColor: 'white', justifyContent: 'center', maxHeight: '80%', borderWidth: 2, borderColor: 'black', borderRadius: 8, }}> 
        
         <List
          style={styles.container}
@@ -59,10 +59,9 @@ export const Driving = ( {route, navigation} ) => {
 
              <Image
                 style={{
-                  height: 150,
+                  height: 140,
                   width: 150,
                   alignSelf: 'center',
-                  borderRadius: 100,
                   borderColor: 'white',
                   marginVertical: 10
                   
@@ -101,13 +100,16 @@ buttonContainer: {
   backgroundColor: 'black',
   width: '70%', 
   height: 50,
-  alignSelf: 'center', 
+  alignItems: 'center', 
   justifyContent: 'center',  
   borderRadius: 5,
   marginVertical: 5,
+  marginHorizontal: '15%', 
 },
 buttonText: {
-  color: 'white'
+  color: 'white',
+  fontFamily: 'Montserrate-Regular',
+    fontSize: 14,
 },
 
 }); 

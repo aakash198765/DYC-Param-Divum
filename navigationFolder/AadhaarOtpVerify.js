@@ -56,7 +56,8 @@ const OtpVerify = ({props,navigation,route}) => {
       <View style={{flex:1}}>
       <TopNavigation title='OTP Verification' alignment='center' accessoryLeft={BackAction} />
       <Divider/>
-        <View style={styles.container}> 
+        <View style={styles.container}>  
+        <View style={styles.container}>
         <Image  source={require('../images/verify.png')}  style={styles.logo}  /> 
 
         <OTPInputView
@@ -68,12 +69,14 @@ const OtpVerify = ({props,navigation,route}) => {
         onCodeFilled = {(code => {
             setOtp(code)
         })}
-         />
+         /> 
+        </View>
          
-
+         
          <TouchableOpacity onPress={Verify} style={styles.buttonContainer} activeOpacity={0.6} >  
                <Text style={styles.buttonText}>Verify</Text>  
            </TouchableOpacity>
+         
          
         </View>
       </View>
@@ -84,7 +87,8 @@ const styles=StyleSheet.create({
     container:{
         flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white', 
+        backgroundColor: 'white'
+
     },
     borderStyleBase: {
     width: 30,
@@ -110,7 +114,8 @@ const styles=StyleSheet.create({
   otp: {
       width: "80%",
       height: 100,
-      marginVertical: '5%'
+      marginTop: 120, 
+      marginBottom: 41, 
   },
   text: {
     margin: 10,
@@ -129,16 +134,17 @@ const styles=StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center',  
     borderRadius: 10,
-    marginVertical: 5,
+    marginBottom: 104,
 },
   buttonText: {
     color: 'white',
-    fontWeight: 'bold'
+    fontFamily: 'Montserrate-Regular',
+    fontSize: 14,
 },
 logo: {
   width: 350,
   height: 230,
-  marginTop: '20%',
+  marginTop: 130,
 
 },
 

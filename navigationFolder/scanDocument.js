@@ -381,7 +381,7 @@ export default class Scanning extends Component {
             <Button color="black"
               onPress={() => {
                 this.clearResults()
-                this.setState({ fullName: "COPYING IMAGE..." })
+                this.setState({ fullName: "Copying Image..." })
                 ImagePicker.openPicker({
                   multiple: true,
                   includeBase64: true
@@ -406,7 +406,7 @@ export default class Scanning extends Component {
                   for (var i = 0; i < response.length; i++) {
                     images.push(response[i].data)
                   }
-                  this.setState({ fullName: "PROCESSING..." , pan: '', dob: '',  })
+                  this.setState({ fullName: "Processing..." , pan: '', dob: '',  })
                   DocumentReader.recognizeImages(images, s => { }, e => console.log(e))
                 }).catch(e => {
                   console.log("ImagePicker: " + e)

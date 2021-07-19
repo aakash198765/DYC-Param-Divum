@@ -42,10 +42,10 @@ export default class FaceMatching extends Component {
 
   pickImage(first) {
     Alert.alert("Select Option", "", [ 
-    /*{ 
+    /*{  
       text: "Use gallery",
       onPress: () => launchImageLibrary({ includeBase64: true }, response => {
-        this.setImage(first, response.base64, Enum.eInputFaceType.ift_DocumentPrinted)
+        this.setImage(first, response.base64, Enum.eInputFaceType.ift_DocumentPrinted) 
       })
     },*/
     {
@@ -135,29 +135,22 @@ export default class FaceMatching extends Component {
        <Divider/> 
       <View style={styles.container}>  
         <View style={styles.container}> 
-          <View style={{ flexDirection: "column", padding: 5 }}> 
-
-
+          <View style={{ flexDirection: "row", padding: 5 , marginTop: 60, marginBottom: 30 }}>  
             <View style={{ flexDirection: "column", alignItems: "center", marginVertical: 5,  }}>
-            
                 <Image
                   style={{
-                    height: 150,
-                    width: 150,
-                    borderRadius: 100,
+                    height: 130,
+                    width: 140,
                   }}
-                  source={this.state.portrait}  
+                  source={this.state.portrait}   
                   /> 
-              
             </View> 
-
-            <View style={{ flexDirection: "column", alignItems: "center" , marginVertical: 5,  }}>
+            <View style={{ flexDirection: "column", alignItems: "center" , marginVertical: 5,  }}> 
               <TouchableHighlight onPress={() => this.pickImage(false)}>
                 <Image
                   style={{
-                    height: 150,
-                    width: 150,
-                    borderRadius: 100,
+                    height: 130,
+                    width: 140,
                   }}
                   source={this.state.img2}
                    />
@@ -165,32 +158,21 @@ export default class FaceMatching extends Component {
             </View>
           </View>
 
-          <View style={{ flexDirection: 'column', width: "100%", alignItems: "center" }}>
-            <View style={{ padding: 3, width: "75%" }}>
-              <Button color='black'
-                onPress={() => {
-                  this.matchFaces()
-                }}
-                title="     Match     "
-              />
-            </View>
-            <View style={{ padding: 3, width: "75%" }}>
-              <Button color='black'
-                onPress={() => {
-                  this.liveness()
-                }}
-                title="     Liveness     "
-              />
-            </View>
-            <View style={{ padding: 3, width: "75%" }}>
-              <Button color='black'
-                onPress={() => {
-                  this.clearResults()
-                }}
-                title="Clear"
-              />
-            </View>
-          </View>
+        <View style={{ flexDirection: 'column', width: "100%", alignItems: "center", marginVertical: 40,  }}> 
+
+          <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6} onPress={() => { this.matchFaces() }}  >   
+                <Text style={styles.buttonText}> Match </Text>   
+           </TouchableOpacity> 
+
+           <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6}  onPress={() => { this.liveness() }}  >   
+                <Text style={styles.buttonText}> Liveness</Text>   
+           </TouchableOpacity> 
+
+           <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6}  onPress={() => { this.clearResults() }}  >   
+                <Text style={styles.buttonText}> Clear </Text>   
+           </TouchableOpacity> 
+
+        </View> 
           <View style={{ flexDirection: 'row' , marginVertical: 10,  }}>
             <Text style={{ marginLeft: -20, fontSize: 14 }}>Similarity: {this.state.similarity}</Text> 
             <Text style={{ marginLeft: 20, fontSize: 14 }}>Liveness: {this.state.liveness}</Text> 
@@ -198,7 +180,7 @@ export default class FaceMatching extends Component {
         </View> 
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginTop: 50, marginBottom: 5}}> 
            <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6} onPress={this.state.profile} >   
-                <Text style={styles.buttonText}> -- Profile -- </Text>   
+                <Text style={styles.buttonText}>Profile</Text>   
            </TouchableOpacity> 
        </View>
       </View>
@@ -212,7 +194,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center', 
     backgroundColor: 'white',
    
@@ -234,14 +215,16 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: 'black', 
-    width: '40%', 
-    height: 40,
+    width: '60%', 
+    height: 45,
     alignItems: 'center', 
     justifyContent: 'center', 
-    borderRadius: 3,
-    marginVertical: 10,
+    borderRadius: 6,
+    marginVertical: 4.5,
 },
 buttonText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Montserrate-Regular',
+    fontSize: 14, 
 }
 })

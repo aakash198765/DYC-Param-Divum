@@ -36,7 +36,7 @@ export default class PassengerProfileFaceMatch extends Component {
       docNo: docNo,
       img1: require('../images/portrait.png'), 
       img2: require('../images/portrait.png'), 
-      similarity: "nil", 
+      similarity: "Nil", 
       
       BackAction: ()=> <TopNavigationAction icon={BackIcon}  onPress={navigateBack} />,
     }
@@ -70,7 +70,7 @@ export default class PassengerProfileFaceMatch extends Component {
 
   setImage(first, base64, type){ 
     if (base64 == null) return
-    this.setState({ similarity: "nil" })
+    this.setState({ similarity: "Nil" })
 
    /*if (first) {
       image1.bitmap = base64
@@ -98,7 +98,7 @@ export default class PassengerProfileFaceMatch extends Component {
     this.setState({ 
       img1: require('../images/portrait.png'), 
       img2: require('../images/portrait.png'),
-      similarity: "nil",
+      similarity: "Nil",
      })
     image1 = new FaceImage()
     image2 = new FaceImage()
@@ -122,54 +122,76 @@ export default class PassengerProfileFaceMatch extends Component {
 
   render() {
     return ( 
-    <SafeAreaView style={{ flex: 1 ,backgroundColor: '#f2f2f2',  }}>  
+    <SafeAreaView style={{ flex: 1 ,backgroundColor: 'white',  }}>  
        <TopNavigation title='Passenger Profile' alignment='center' accessoryLeft={this.state.BackAction} style={{fontWeight: 'bold', }}  /> 
        <Divider/> 
       <View style={styles.container}>  
 
-          <View style={{ flexDirection: "column", padding: 5, backgroundColor: '#f2f2f2', }}> 
-           <View style={{ flexDirection: "column", marginTop: 10, backgroundColor: '#f2f2f2', marginBottom: 10, marginHorizontal: 5, borderRadius: 5  }}>
-                <View style={{ flexDirection: "column", alignItems: "center", marginTop: 10, backgroundColor: '#f2f2f2', marginBottom: 30,  }}> 
-                   <Image style={{ height: 150, width: 150, borderRadius: 100, marginVertical: 30 }}
+          <View style={{ flexDirection: "column", padding: 5, backgroundColor: 'white', marginTop: 30, marginBottom: 68 }}> 
+             <View style={{ flexDirection: "row", marginTop: 10, backgroundColor: 'white', justifyContent: 'center', marginVertical: 30, marginRight: 9.5 }}>
+                <View style={{ flexDirection: "column"  }}> 
+                   <Image style={{ height: 140, width: 150 }}
                        source={this.state.portrait}  /> 
-                </View>
-
-                <Text style={styles.text1}> Full Name:        {this.state.name} </Text>
-                <Text style={styles.text1}> Doc No:             {this.state.docNo} </Text> 
-                <Text style={styles.text1}> Aadhaar No:     {this.state.aadhaar_number} </Text>
-                <Text style={styles.text1}> Mobile No:        {this.state.mobileNumber} </Text>  
-                <Text></Text> 
-            </View> 
-
-             
-
-            <View style={{ flexDirection: "column", alignItems: "center" , marginVertical: 5,  backgroundColor: '#f2f2f2', }}>
-              <TouchableHighlight onPress={() => this.pickImage(false)}>
-                <Image style={{ height: 150, width: 150, borderRadius: 100 }}
-                       source={this.state.img2}  />
-              </TouchableHighlight>
-            </View>
+                </View> 
+                <View style={{ flexDirection: "column",  marginLeft: 9.5 }}>
+                   <TouchableHighlight onPress={() => this.pickImage(false)}> 
+                       <Image style={{ height: 140, width: 150 }}
+                             source={this.state.img2}  />
+                       </TouchableHighlight>
+                </View> 
+             </View>   
           </View>
 
-          <View style={{ flexDirection: 'column', width: "100%", alignItems: "center", backgroundColor: '#f2f2f2', }}>
-            <View style={{ padding: 3, width: "75%" }}>
-              <Button color='black' onPress={() => { this.matchFaces() }}
-                      title="     Match     " />
-            </View>
-           
-            <View style={{ padding: 3, width: "75%", backgroundColor: '#f2f2f2', }}>
-              <Button color='black' onPress={() => { this.clearResults() }}
-                      title="Clear" />
-            </View>
+          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline'}}>  
+                 <Text style={{fontWeight: 'bold', fontSize: 20, }}> {this.state.name} </Text>
+          </View> 
+
+          <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 40}}>   
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90, }}> 
+                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                   <Text style={styles.text1}> Doc No: </Text> 
+                </View>
+                <View  stytle={{flex: 1, flexDirection: 'column'}}>  
+                   <Text style={{ marginHorizontal: 40 }}>  {this.state.docNo} </Text>  
+                </View> 
+              </View> 
+
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90 }}> 
+                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                   <Text style={styles.text1}> Aadhaar No: </Text> 
+                </View>
+                <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>  
+                   <Text  style={{ marginHorizontal: 8 }}>  {this.state.aadhaar_number} </Text> 
+                </View>  
+              </View>
+
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90 }}>
+                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                   <Text style={styles.text1}> Mobile No: </Text> 
+                </View>
+                <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center'}}>  
+                   <Text  style={{ marginHorizontal: 20 }} >  {this.state.mobileNumber} </Text> 
+                </View> 
+              </View>  
+            </View>  
+
+
+          <View style={{ alignItems: 'center', justifyContent: 'flex-start' }}> 
+               <TouchableOpacity  onPress={() => { this.matchFaces() }}  style={styles.buttonContainer} activeOpacity={0.6} >   
+                   <Text style={styles.buttonText}> Match</Text>   
+               </TouchableOpacity> 
+
+               <TouchableOpacity onPress={() => { this.clearResults() }}   style={styles.buttonContainer} activeOpacity={0.6} >   
+                   <Text style={styles.buttonText}> Clear</Text>   
+               </TouchableOpacity> 
           </View> 
         
 
-          <View style={{ flexDirection: 'row' , marginVertical: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f2f2f2', }}>
+          <View style={{ flexDirection: 'row' , marginVertical: 5, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ marginLeft: -20, fontSize: 18 }}>Similarity: {this.state.similarity}</Text> 
           </View> 
 
-
-        </View> 
+ </View>
     </SafeAreaView>
     )
   }
@@ -180,7 +202,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     flex: 1, 
-    backgroundColor: '#f2f2f2', 
+    backgroundColor: 'white', 
    
   },
   welcome: {
@@ -189,9 +211,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text1: {
-    marginVertical: 10,
+    marginVertical: 5,
     fontSize: 16,
-    marginHorizontal: 20,
+    marginRight: 0,
   },
   instructions: {
     textAlign: 'center',
@@ -204,13 +226,13 @@ const styles = StyleSheet.create({
     right: 20
   },
   buttonContainer: {
-    backgroundColor: '#bf8040', 
-    width: '40%', 
-    height: 40,
+    backgroundColor: 'black', 
+    width: '70%', 
+    height: 50, 
     alignItems: 'center', 
     justifyContent: 'center', 
-    borderRadius: 3,
-    marginVertical: 10,
+    borderRadius: 5,
+    marginVertical: 5,
 },
 buttonText: {
     color: 'white'
