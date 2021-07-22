@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, Text, Image, TouchableHighlight, Alert, SafeAreaView, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Button, Text, Image, TouchableHighlight, Alert, SafeAreaView, TouchableOpacity, Keyboard } from 'react-native'
 import launchImageLibrary from 'react-native-image-picker'; 
 import FaceSDK, { Enum, FaceCaptureResponse, LivenessResponse, MatchFacesResponse, MatchFacesRequest, Image as FaceImage } from '@regulaforensics/react-native-face-api-beta';
 import { Divider, Icon, Layout, TopNavigation, TopNavigationAction, List , ListItem,  } from '@ui-kitten/components';
@@ -8,8 +8,14 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
   );
-
-
+  
+  
+  
+  const renderTitle = (props) => (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}> 
+      <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>Passenger Profile</Text> 
+    </View>
+  );
 
 var image1 = new FaceImage()
 var image2 = new FaceImage() 
@@ -18,7 +24,7 @@ export default class PassengerProfileFaceMatch extends Component {
   constructor(props) {
     super(props) 
 
-   const {name, docNo, aadhaar_number, mobileNumber, portrait, imageSet1} = props.route.params;     
+   const { doc_image, doc_no, mobileNumber, name, self_image, AadharNo } = props.route.params;     
 
     const navigateBack = () => {
         props.navigation.goBack();
@@ -28,22 +34,26 @@ export default class PassengerProfileFaceMatch extends Component {
 
     this.state = { 
        //portrait -- base64 image & imageSet1 -- bitmap image in this scenario -- so set the images accordingly 
-      portrait : require('../images/portrait.png'), 
-      imageSet1: require('../images/portrait.png'), 
-      aadhaar_number: aadhaar_number,
+      portrait : self_image,  
+      imageSet1: doc_image, 
+      aadhaar_number: AadharNo,
       mobileNumber: mobileNumber ,
       name: name,
-      docNo: docNo,
+      docNo: doc_no,
       img1: require('../images/portrait.png'), 
       img2: require('../images/portrait.png'), 
       similarity: "Nil", 
-      
+    
       BackAction: ()=> <TopNavigationAction icon={BackIcon}  onPress={navigateBack} />,
     }
   }
 
   pickImage(first) {
-    Alert.alert("Select Option", "", [ 
+    Alert.alert(' "DYC" Would Like to Access the Camera', "", [ 
+      { 
+        text: "Don't Allow",
+        onPress: () => Keyboard.dismiss(),
+     }, 
     /*{ 
       text: "Use gallery",
       onPress: () => launchImageLibrary({ includeBase64: true }, response => {
@@ -81,16 +91,16 @@ export default class PassengerProfileFaceMatch extends Component {
      // console.log(base64); 
 
      // setting image 1 while setting image2 itself , so won't need another seperate function -----setImage1---- to update image1 
-     image1.bitmap = this.state.portrait.base64 
+     image1.bitmap = this.state.imageSet1 
      image1.imageType = Enum.eInputFaceType.ift_DocumentPrinted 
-     this.setState({ portrait: this.state.portrait })  
+     this.setState({ portrait: this.state.portrait }) 
 
      //
 
 
       image2.bitmap = base64
       image2.imageType = type 
-      this.setState({ img2: { uri: "data:image/png;base64," + base64 } })  
+      this.setState({ img2: { uri: "data:image/png;base64," + base64 } })   
     }
   }
 
@@ -123,54 +133,54 @@ export default class PassengerProfileFaceMatch extends Component {
   render() {
     return ( 
     <SafeAreaView style={{ flex: 1 ,backgroundColor: 'white',  }}>  
-       <TopNavigation title='Passenger Profile' alignment='center' accessoryLeft={this.state.BackAction} style={{fontWeight: 'bold', }}  /> 
+       <TopNavigation title={renderTitle} alignment='center' accessoryLeft={this.state.BackAction}   /> 
        <Divider/> 
       <View style={styles.container}>  
 
-          <View style={{ flexDirection: "column", padding: 5, backgroundColor: 'white', marginTop: 30, marginBottom: 68 }}> 
+          <View style={{ flexDirection: "column", padding: 5, backgroundColor: 'white', marginTop: 50, marginBottom: 40 }}> 
              <View style={{ flexDirection: "row", marginTop: 10, backgroundColor: 'white', justifyContent: 'center', marginVertical: 30, marginRight: 9.5 }}>
                 <View style={{ flexDirection: "column"  }}> 
-                   <Image style={{ height: 140, width: 150 }}
+                   <Image style={{ height: 120, width: 120 }}
                        source={this.state.portrait}  /> 
                 </View> 
                 <View style={{ flexDirection: "column",  marginLeft: 9.5 }}>
                    <TouchableHighlight onPress={() => this.pickImage(false)}> 
-                       <Image style={{ height: 140, width: 150 }}
-                             source={this.state.img2}  />
+                       <Image style={{ height: 120, width: 120 }}
+                             source={this.state.img2}  /> 
                        </TouchableHighlight>
                 </View> 
              </View>   
           </View>
 
           <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline'}}>  
-                 <Text style={{fontWeight: 'bold', fontSize: 20, }}> {this.state.name} </Text>
+                 <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 14, }}> {this.state.name} </Text>
           </View> 
 
-          <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 40}}>   
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90, }}> 
+          <View style={{flexDirection: 'column', marginTop: 5, marginBottom: 80}}>   
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 65 }}> 
                 <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
                    <Text style={styles.text1}> Doc No: </Text> 
                 </View>
                 <View  stytle={{flex: 1, flexDirection: 'column'}}>  
-                   <Text style={{ marginHorizontal: 40 }}>  {this.state.docNo} </Text>  
+                   <Text style={{ marginHorizontal: 67, fontFamily: 'Montserrat-Light' }}>  {this.state.docNo} </Text>  
                 </View> 
               </View> 
 
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90 }}> 
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 65 }}> 
                 <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
                    <Text style={styles.text1}> Aadhaar No: </Text> 
                 </View>
                 <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>  
-                   <Text  style={{ marginHorizontal: 8 }}>  {this.state.aadhaar_number} </Text> 
+                   <Text  style={{ marginHorizontal: 31, fontFamily: 'Montserrat-Light', }}>  {this.state.aadhaar_number} </Text> 
                 </View>  
               </View>
 
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 90 }}>
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 65 }}>
                 <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
                    <Text style={styles.text1}> Mobile No: </Text> 
                 </View>
                 <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center'}}>  
-                   <Text  style={{ marginHorizontal: 20 }} >  {this.state.mobileNumber} </Text> 
+                   <Text  style={{ marginHorizontal: 45, fontFamily: 'Montserrat-Light', }} >  {this.state.mobileNumber} </Text> 
                 </View> 
               </View>  
             </View>  
@@ -187,8 +197,8 @@ export default class PassengerProfileFaceMatch extends Component {
           </View> 
         
 
-          <View style={{ flexDirection: 'row' , marginVertical: 5, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ marginLeft: -20, fontSize: 18 }}>Similarity: {this.state.similarity}</Text> 
+          <View style={{ flexDirection: 'row' , marginVertical: 10, alignItems: 'center', justifyContent: 'center' }}> 
+            <Text style={{  fontFamily: 'Montserrat-Light', fontSize: 16 }}>Similarity: {this.state.similarity}</Text> 
           </View> 
 
  </View>
@@ -213,7 +223,7 @@ const styles = StyleSheet.create({
   text1: {
     marginVertical: 5,
     fontSize: 16,
-    marginRight: 0,
+    fontFamily: 'Montserrat-Light',
   },
   instructions: {
     textAlign: 'center',
@@ -232,12 +242,15 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center', 
     borderRadius: 5,
-    marginVertical: 5,
+    marginVertical: 4.5,
 },
 buttonText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Montserrat-Light',
+    fontSize: 14,
 },
 example: {
   marginVertical: 24,
 },
+
 })

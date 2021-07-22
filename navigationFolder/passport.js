@@ -5,6 +5,11 @@ import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, List ,
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
 );
+const renderTitle = (props) => (
+  <View style={{flexDirection: 'row', alignItems: 'center'}}> 
+    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>Passport Details</Text> 
+  </View>
+);
 
 export const Passport = ( {route, navigation} ) => {
 
@@ -41,7 +46,7 @@ export const Passport = ( {route, navigation} ) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title='Passport Details' alignment='center' accessoryLeft={BackAction} style={{fontWeight: 'bold', }} />
+      <TopNavigation title={renderTitle} alignment='center' accessoryLeft={BackAction} style={{fontWeight: 'bold', }} />
       <Divider/>
       <Layout style={{ flex: 1, padding: 20 , backgroundColor: 'white' }}>  
       <Layout style={{  backgroundColor: 'white', justifyContent: 'center',  maxHeight: '80%', borderWidth: 2, borderColor: 'black', borderRadius: 8, }}> 

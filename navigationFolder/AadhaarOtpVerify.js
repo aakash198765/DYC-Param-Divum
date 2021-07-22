@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import {View,Text,StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
+import {View,Text,StyleSheet, Button, TouchableOpacity, Image, Keyboard,  KeyboardAvoidingView, Platform,  SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import {  Divider, TopNavigation, TopNavigationAction,Icon } from '@ui-kitten/components';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { color } from 'react-native-reanimated';
 
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' /> 
+); 
+
+const renderTitle = (props) => (
+  <View style={{flexDirection: 'row', alignItems: 'center'}}> 
+    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>OTP Verification</Text> 
+  </View>
 );
+
 
 const OtpVerify = ({props,navigation,route}) => {
 
@@ -32,7 +39,7 @@ const OtpVerify = ({props,navigation,route}) => {
     headers: myHeaders,
     body: raw,
     redirect: 'follow'
-    };
+    }; 
 
    console.log(requestOptions);
     const Verify = () => {
@@ -52,48 +59,56 @@ const OtpVerify = ({props,navigation,route}) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/> 
   );
 
-    return(
-      <View style={{flex:1}}>
-      <TopNavigation title='OTP Verification' alignment='center' accessoryLeft={BackAction} />
-      <Divider/>
-        <View style={styles.container}>  
-        <View style={styles.container}>
-        <Image  source={require('../images/verify.png')}  style={styles.logo}  /> 
+    return( 
+    <SafeAreaView style={{ flex: 1 }}> 
+      <TopNavigation title={renderTitle} alignment='center' accessoryLeft={BackAction} />
+      <Divider/> 
+        
+  <KeyboardAvoidingView   style={styles.container}> 
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>      
+      <View style={styles.screen}>  
+            <Image  source={require('../images/verify.png')}  style={styles.logo}  />
+        
+        <View style={styles.section1}>
+           <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 14}} > Enter the Otp: </Text>  
+            <OTPInputView
+            style={styles.otp}
+            pinCount={6} 
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            onCodeFilled = {(code => { setOtp(code) })}
+             /> 
 
-        <OTPInputView
-        style={styles.otp}
-         pinCount={6} 
-         autoFocusOnLoad
-        codeInputFieldStyle={styles.underlineStyleBase}
-        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-        onCodeFilled = {(code => {
-            setOtp(code)
-        })}
-         /> 
-        </View>
-         
-         
          <TouchableOpacity onPress={Verify} style={styles.buttonContainer} activeOpacity={0.6} >  
                <Text style={styles.buttonText}>Verify</Text>  
-           </TouchableOpacity>
-         
-         
-        </View>
-      </View>
+          </TouchableOpacity>
+        </View> 
+      
+      </View>  
+    </TouchableWithoutFeedback> 
+  </KeyboardAvoidingView>   
+</SafeAreaView> 
     );
 }
 
 const styles=StyleSheet.create({
     container:{
         flex: 1,
-        alignItems: 'center',
-        backgroundColor: 'white'
-
+        backgroundColor: 'white',
     },
+    screen: {
+      flex:1,
+  },
+  section1: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    //marginVert: 100,
+  },
     borderStyleBase: {
     width: 30,
-    height: 45,
-    
+    height: 40, 
   },
  
   borderStyleHighLighted: {
@@ -113,38 +128,30 @@ const styles=StyleSheet.create({
   },
   otp: {
       width: "80%",
-      height: 100,
-      marginTop: 120, 
-      marginBottom: 41, 
-  },
-  text: {
-    margin: 10,
-    fontSize: 30,
-    textAlign: "center",
-  },
-  details: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 4,
-  },
+     height: 50,
+     // marginTop: 120, 
+
+  },  
   buttonContainer: {
     backgroundColor: 'black',
-    width: '70%', 
+    width: '60%', 
     height: 50,
     alignItems: 'center', 
     justifyContent: 'center',  
-    borderRadius: 10,
-    marginBottom: 104,
+   borderRadius: 6,
+   marginVertical: 30
 },
   buttonText: {
     color: 'white',
-    fontFamily: 'Montserrate-Regular',
+    fontFamily: 'Montserrate-Regular', 
     fontSize: 14,
 },
 logo: {
   width: 350,
   height: 230,
-  marginTop: 130,
+  alignSelf: 'center',
+  marginTop: 100,
+ 
 
 },
 

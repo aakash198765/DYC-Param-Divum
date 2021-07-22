@@ -9,7 +9,9 @@ import CheckBox from 'react-native-check-box'
 //
 import {  Divider, Layout, Icon,  TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 
-const eventManager = new NativeEventEmitter(RNRegulaDocumentReader)
+const eventManager = new NativeEventEmitter(RNRegulaDocumentReader) 
+
+
 
 var licPath = Platform.OS === 'ios' ? (RNFS.MainBundlePath + "/regula.license") : "regula.license"
 var certDir = Platform.OS === 'ios' ? (RNFS.MainBundlePath + "/certificates") : "certificates"

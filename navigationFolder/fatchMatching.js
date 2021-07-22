@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Button, Text, Image, TouchableHighlight, Alert, SafeAreaView, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Button, Text, Image, TouchableHighlight, Alert, SafeAreaView, TouchableOpacity, Keyboard } from 'react-native'
 import launchImageLibrary from 'react-native-image-picker'; 
 import FaceSDK, { Enum, FaceCaptureResponse, LivenessResponse, MatchFacesResponse, MatchFacesRequest, Image as FaceImage } from '@regulaforensics/react-native-face-api-beta';
 import { Divider, Icon, Layout, TopNavigation, TopNavigationAction, List , ListItem,  } from '@ui-kitten/components';
@@ -7,8 +7,13 @@ import { Divider, Icon, Layout, TopNavigation, TopNavigationAction, List , ListI
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
   );
+ 
 
-
+  const renderTitle = (props) => (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}> 
+      <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>Facial Recognizition</Text> 
+    </View>
+  );
 
 var image1 = new FaceImage()
 var image2 = new FaceImage() 
@@ -16,10 +21,11 @@ var image2 = new FaceImage()
 export default class FaceMatching extends Component { 
   constructor(props) {
     super(props) 
-
+///
     const navigateBack = () => {
         props.navigation.goBack();
-      };
+      }; 
+///
 
     const { portrait, resultPass, image1, aadhaar_number, mobileNumber , name, docNo } = props.route.params; 
     this.state = { 
@@ -41,7 +47,11 @@ export default class FaceMatching extends Component {
   }
 
   pickImage(first) {
-    Alert.alert("Select Option", "", [ 
+    Alert.alert(' "DYC" Would Like to Access the Camera', "", [  
+      { 
+         text: "Don't Allow",
+         onPress: () => Keyboard.dismiss(),
+      }, 
     /*{  
       text: "Use gallery",
       onPress: () => launchImageLibrary({ includeBase64: true }, response => {
@@ -49,7 +59,7 @@ export default class FaceMatching extends Component {
       })
     },*/
     {
-      text: "OK",
+      text: "OK", 
       onPress: () => FaceSDK.presentFaceCaptureActivity(result => {
         this.setImage(first, FaceCaptureResponse.fromJson(JSON.parse(result)).image.bitmap, Enum.eInputFaceType.ift_Live)
       }, e => { })
@@ -126,12 +136,14 @@ export default class FaceMatching extends Component {
       if(result.bitmap != null)
         this.setState({ liveness: result["liveness"] == 0 ? "passed" : "unknown" })  
     }, e => { })
-  }
+  } 
+
+  
 
   render() {
     return ( 
     <SafeAreaView style={{ flex: 1 ,  }}> 
-       <TopNavigation title='Facial Recognizition' alignment='center' accessoryLeft={this.state.BackAction} style={{fontWeight: 'bold', }}  />
+       <TopNavigation title={renderTitle} alignment='center' accessoryLeft={this.state.BackAction}  /> 
        <Divider/> 
       <View style={styles.container}>  
         <View style={styles.container}> 
@@ -174,8 +186,8 @@ export default class FaceMatching extends Component {
 
         </View> 
           <View style={{ flexDirection: 'row' , marginVertical: 10,  }}>
-            <Text style={{ marginLeft: -20, fontSize: 14 }}>Similarity: {this.state.similarity}</Text> 
-            <Text style={{ marginLeft: 20, fontSize: 14 }}>Liveness: {this.state.liveness}</Text> 
+            <Text style={{ marginLeft: -20, fontSize: 14, fontFamily: 'Montserrate-Light' }}>Similarity: {this.state.similarity}</Text>  
+            <Text style={{ marginLeft: 20, fontSize: 14, fontFamily: 'Montserrate-Light' }}>Liveness: {this.state.liveness}</Text> 
           </View>
         </View> 
         <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginTop: 50, marginBottom: 5}}> 

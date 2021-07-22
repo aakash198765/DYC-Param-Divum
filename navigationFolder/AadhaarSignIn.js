@@ -7,6 +7,11 @@ const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' />
 );
 
+const renderTitle = (props) => (
+  <View style={{flexDirection: 'row', alignItems: 'center'}}> 
+    <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>Aadhaar Verification</Text> 
+  </View>
+);
 
 const SignIn = ({navigation, props}) => {
     const [details, setDetails] = useState([]);
@@ -84,7 +89,7 @@ const SignIn = ({navigation, props}) => {
     return(
         {nav},
         <SafeAreaView style={{ flex: 1 }}>
-          <TopNavigation title='Aadhaar Verification' alignment='center' accessoryLeft={BackAction} style={{fontWeight: 'bold' }}  /> 
+          <TopNavigation title={renderTitle} alignment='center' accessoryLeft={BackAction} style={{fontWeight: 'bold' }}  /> 
           <Divider/>
         <KeyboardAvoidingView 
          style={styles.container}
