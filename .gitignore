@@ -58,3 +58,6 @@ buck-out/
 /ios/Pods/
 
 .idea/
+
+# ignore java_pid binary file
+*.hprof 
