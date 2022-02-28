@@ -97,8 +97,6 @@ export default class Scanning extends Component {
             DocumentReader.getDocumentReaderIsReady((isReady) => {
               if (isReady) {
                 this.setState({ fullName: "Ready to Scan Document" })
-                //addCertificates()
-               
               } else
                 this.setState({ fullName: "Failed" })
             }, error => console.log(error))
@@ -109,6 +107,13 @@ export default class Scanning extends Component {
 
     this.state = { 
       BackAction: ()=> <TopNavigationAction icon={BackIcon}  onPress={navigateBack} />, 
+
+      navigateToAadhaar: ()=> {props.navigation.navigate('aadhaar', {name: this.state.name, docNo: this.state.docNo, dob: this.state.dob, age: this.state.age, gender: this.state.gender,
+        birth_place: this.state.birth_place, docType: this.state.docType, nationality: this.state.nationality,  dept: this.state.dept, issue_date: this.state.issue_date, expiry_date: this.state.expiry_date, portrait: this.state.portrait,
+        place_of_issue: this.state.place_of_issue, resultPass: this.state.resultPass, image1: this.state.image1,  aadhaar_number: this.state.aadhaar_number, mobileNumber: this.state.mobileNumber,
+        name: this.state.name, docNo: this.state.docNo,             
+       });},
+
       navigateToPassport: ()=> {props.navigation.navigate('passport', {name: this.state.name, docNo: this.state.docNo, dob: this.state.dob, age: this.state.age, gender: this.state.gender,
         birth_place: this.state.birth_place, docType: this.state.docType, nationality: this.state.nationality,  dept: this.state.dept, issue_date: this.state.issue_date, expiry_date: this.state.expiry_date, portrait: this.state.portrait,
         place_of_issue: this.state.place_of_issue, resultPass: this.state.resultPass, image1: this.state.image1,  aadhaar_number: this.state.aadhaar_number, mobileNumber: this.state.mobileNumber,
@@ -212,34 +217,24 @@ export default class Scanning extends Component {
     this.setState({ fullName: "Ready", docFront: require('../images/id.png'), portrait: require('../images/portrait.png') })
   }
 
-  displayResults(results) { 
+  displayResults(results) {  
     this.setState({ fullName: 'Document Scanned Successfully', 
                     resultPass: results,
-
-
-                    name: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES }),  // name for both dl & passport
-                    docNo: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DOCUMENT_NUMBER }),           // document number for both dl &
+                    name: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_SURNAME_AND_GIVEN_NAMES }),
+                    docNo: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DOCUMENT_NUMBER }),
                     dob: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DATE_OF_BIRTH }),
                     age: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_AGE }),
                     gender: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_SEX }), 
-                    nationality:  results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_NATIONALITY }),
+                    nationality:  this.state.choice ==='aadhaar'? results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_ISSUING_STATE_NAME }):results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_NATIONALITY }),
                     birth_place: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_PLACE_OF_BIRTH }), 
-                    issue_date: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DATE_OF_ISSUE }),
+                    issue_date: this.state.choice ==='aadhaar'? results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_FIRST_ISSUE_DATE }): results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DATE_OF_ISSUE }),
                     expiry_date: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DATE_OF_EXPIRY }),
                     dept: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DOCUMENT_CLASS_CODE }),
                     docType: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_AUTHORITY_RUS }),
                     place_of_issue: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_PLACE_OF_ISSUE }),
-                 // driving license additional data
+                    // driving license additional data
                     dl_address: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_ADDRESS }),
-                   // dl_endorsed: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_AUTHORITY }),
-                   // dl_iss_type: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_AUTHORITY_RUS }),
-                   // dl_restriction_code: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_DL_CDL_RESTRICTION_CODE }),
-                    //dl_permit: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_PERMIT_DL_CLASS }),
                     dl_permit_endorsed: results.getTextFieldValueByType({ fieldType: Enum.eVisualFieldType.FT_PERMIT_ENDORSED }),
-
-
-
-
 
            })
     if (results.getGraphicFieldImageByType({ fieldType: Enum.eGraphicFieldType.GF_DOCUMENT_IMAGE }) != null)
@@ -281,14 +276,10 @@ export default class Scanning extends Component {
           }, e => { }, error => console.log(error))
         }
       }
-      // this.customRFID()
       this.usualRFID()
     } else
       this.displayResults(results)
   }
-
-
-  // <TopNavigation title='Detail' alignment='center' accessoryLeft={this.state.BackAction} />
  
   render() {
     return ( 
@@ -423,9 +414,14 @@ export default class Scanning extends Component {
       </Layout> 
 
       {
-         (this.state.choice === 'passport')?
-         <Button onPress={this.state.navigateToPassport} title="Passport Details" color='black' /> :
-         <Button onPress={this.state.navigateToDriving} title="Driving Licence Details" color='black' /> 
+        this.state.choice==='aadhaar' ? 
+        <Button onPress={this.state.navigateToAadhaar} title="Aadhaar Details" color='black' /> 
+        : this.state.choice==="passport" ?
+        <Button onPress={this.state.navigateToPassport} title="Passport Details" color='black' />
+        : this.state.choice === "passport" ? 
+        <Button onPress={this.state.navigateToDriving} title="Driving Licence Details" color='black' /> 
+        : 
+        <></>
      } 
       </SafeAreaView>
     )

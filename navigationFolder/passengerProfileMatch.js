@@ -59,7 +59,7 @@ export default class PassengerProfileFaceMatch extends Component {
       onPress: () => launchImageLibrary({ includeBase64: true }, response => {
         this.setImage(first, response.base64, Enum.eInputFaceType.ift_DocumentPrinted)
       })
-    },*/
+    },*/ 
     {
       text: "OK",
       onPress: () => FaceSDK.presentFaceCaptureActivity(result => {
@@ -67,6 +67,7 @@ export default class PassengerProfileFaceMatch extends Component {
       }, e => { })
     }], { cancelable: true })
   } 
+
 
   // configure image1 setting so first image can hold the value
   /* setImage1(portrait, imageSet1) {  

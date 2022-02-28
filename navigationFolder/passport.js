@@ -21,7 +21,6 @@ export const Passport = ( {route, navigation} ) => {
     {id: 2, field: 'Passport No.   ', value: docNo  },
     {id: 3, field: 'Nationality        ',  value: nationality }, 
     {id: 4, field: 'Place of Birth    ',  value: birth_place },
-    //{id: 5, field: 'Document Type',  value: docType },
     {id: 6, field: 'DOB                    ',  value: dob },  
     {id: 7, field: 'Age                     ',  value: age },
     {id: 8, field: 'Gender               ',  value: gender }, 

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaView, View, StyleSheet, Button, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, StyleSheet, Button, Image, TouchableOpacity, Alert } from 'react-native';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, List , ListItem, OverflowMenu, MenuItem  } from '@ui-kitten/components';
-
+import { Bubbles, DoubleBounce, Bars, Pulse } from 'react-native-loader';
 import createWallet from '../wallet';
 
 const BackIcon = (props) => (
@@ -30,7 +30,7 @@ const Profile = ( {route, navigation} ) => {
   const [userId, setUserId] = useState('');
   const [privateKey, setPrivateKey] = useState('');
   const [publicKey, setPublicKey] = useState(''); 
-
+  const [showSpinner, setShowSpinner] = useState(false);
   const [display, SetDisplay] = useState(true);
   
   const {  name, docNo , portrait, image, aadhaar_number, mobileNumber } = route.params; 
@@ -42,9 +42,6 @@ const Profile = ( {route, navigation} ) => {
  const image1 = image;
  const mobile = mobileNumber;
 
-
-
-
   const navigateBack = () => {
     navigation.goBack();
   };
@@ -54,13 +51,12 @@ const Profile = ( {route, navigation} ) => {
 
   let data={};
 
-  if(state === true){
+if(state === true){
   const getData = async () => {
   try {
-    const paramId = await AsyncStorage.getItem('paramId')
-    const privateKey = await AsyncStorage.getItem('privateKey')
-    const publicKey = await AsyncStorage.getItem('publicKey')
-    
+    const paramId = await AsyncStorage.getItem('paramId');
+    const privateKey = await AsyncStorage.getItem('privateKey');
+    const publicKey = await AsyncStorage.getItem('publicKey');
     if(paramId !== null && privateKey !== null && publicKey !== null) {
       setUserId(paramId);
       setPrivateKey(privateKey);
@@ -68,9 +64,10 @@ const Profile = ( {route, navigation} ) => {
     }
   } catch(e) {
     // error reading value
+    return e
   }
 }
-  getData();
+getData();
   data = {
           "data":{
               "doc_image":image1,
@@ -83,27 +80,37 @@ const Profile = ( {route, navigation} ) => {
           "From": userId,
           "To": "0x35C7078bc7DA07abF8E73D8bC63043Bf07033c75"
     }
-    
   }
   
   const raw = JSON.stringify(data)
 
   const sendData = () => {
-    
-          fetch('http://admin:iphone21@168.138.149.7:5984/privateledger', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Basic YWRtaW46aXBob25lMjE='
-          },
-          body: raw,
-          redirect: 'follow'
-          },
-          
-          )
-          .then(response => response.text())
-          .then(result => console.log(result))
-          .catch(error => console.log('error', error));
+    setShowSpinner(true);
+    console.log(raw);
+    return fetch('http://admin:iphone21@168.138.149.7:5984/privateledger', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Basic YWRtaW46aXBob25lMjE='
+            },
+            body: raw,
+            redirect: 'follow'
+            })
+            .then(response => {
+              return response.text();
+            })
+            .then(result =>{
+              if(result){
+                Alert.alert('Successfully shared the profile with Param Network.')
+                setShowSpinner(false);
+              }
+              return result;
+            })
+            .catch(error =>{
+                Alert.alert('Failed to share the profile with Param Network.')
+                setShowSpinner(false);
+                return error;
+            });
   }; 
   
 
@@ -126,84 +133,98 @@ const Profile = ( {route, navigation} ) => {
     </React.Fragment>
   );
 
+  const renderContent = () =>{
+  return (
+  <>
+    <TopNavigation title={renderTitle} alignment='center' accessoryLeft={BackAction}  accessoryRight={renderRightActions} />
+    <Divider/>
+    <Layout style={{ flex: 1, padding: 20 , backgroundColor: 'white' }}>  
+          <Layout style={{  backgroundColor: 'white', paddingVertical: 30,  minHeight: 400,  maxHeight: '60%', borderWidth: 2, borderColor: 'black', borderRadius: 8, }}> 
+            <View style={{flexDirection: 'column', justifyContent: 'center', marginHorizontal: '7%' }}>
+              <Image style={{ height: 140, width: 140, alignSelf: 'center', marginVertical: 10   }}  
+                      source={portraitImage} 
+                      resizeMode="contain"
+              />  
+              <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', marginTop: 40}}> 
+                  <Text style={{fontWeight: 'bold', fontSize: 20, marginHorizontal: 18  }}> {name_} </Text>  
+              </View> 
+              <View style={{flexDirection: 'column', marginVertical: 5}}>   
+                      {
+                        !docNo_?
+                        <></>
+                        :
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}>   
+                          <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                            <Text style={styles.text1}> Doc No: </Text> 
+                          </View>
+                          <View  stytle={{flex: 1, flexDirection: 'column'}}>  
+                            <Text style={{ marginHorizontal: 40 }}> {docNo_} </Text>  
+                          </View> 
+                        </View> 
+                      }
+                  
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}> 
+                      <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                        <Text style={styles.text1}> Aadhaar No: </Text> 
+                      </View>
+                      <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>  
+                        <Text  style={{ marginHorizontal: 8 }}>  {AadharNo} </Text>  
+                      </View>  
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}>
+                      <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                        <Text style={styles.text1}> Mobile No: </Text> 
+                      </View>
+                      <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center'}}>  
+                        <Text  style={{ marginHorizontal: 20 }} >  {mobile} </Text> 
+                      </View>  
+                    </View>  
+              </View>  
+            </View>
+          </Layout>
+   
+          <View style={{flexDirection: 'column',justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 3}}>  
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', marginVertical: 20}}> 
+                <Text style={{fontFamily: 'Montserrat-Light', fontSize: 12, marginHorizontal: 18,  }}> {userId} </Text>  
+            </View> 
+            { display?
+            <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6} onPress={() => {createWallet(); setState(true); SetDisplay(false); }}>    
+              <Text style={styles.buttonText}> Generate DID</Text>   
+            </TouchableOpacity>
+            :
+            <TouchableOpacity   style={styles.buttonContainer} activeOpacity={0.6} onPress={sendData}>    
+              <Text style={styles.buttonText}> Share Via Blockchain </Text>   
+            </TouchableOpacity>
+            }
+        </View>
+    </Layout>
+  </> 
+  );
+}
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title={renderTitle} alignment='center' accessoryLeft={BackAction}  accessoryRight={renderRightActions} />
-      <Divider/>
-      <Layout style={{ flex: 1, padding: 20 , backgroundColor: 'white' }}>  
-     
-   <Layout style={{  backgroundColor: 'white', paddingVertical: 30,  minHeight: 400,  maxHeight: '60%', borderWidth: 2, borderColor: 'black', borderRadius: 8, }}> 
-     <View style={{flexDirection: 'column', justifyContent: 'center', marginHorizontal: '7%' }}>
-     <Image style={{ height: 140, width: 140, alignSelf: 'center', marginVertical: 10   }}  
-                source={portraitImage} 
-                resizeMode="contain"
-      />  
-      
-     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', marginTop: 40}}> 
-                 <Text style={{fontWeight: 'bold', fontSize: 20, marginHorizontal: 18,  }}> {name_} </Text>  
-      </View> 
-       
-      <View style={{flexDirection: 'column', marginVertical: 5}}>   
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}>   
-                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
-                   <Text style={styles.text1}> Doc No: </Text> 
-                </View>
-                <View  stytle={{flex: 1, flexDirection: 'column'}}>  
-                   <Text style={{ marginHorizontal: 40 }}> {docNo_} </Text>  
-                </View> 
-              </View> 
-
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}> 
-                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
-                   <Text style={styles.text1}> Aadhaar No: </Text> 
-                </View>
-                <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>  
-                   <Text  style={{ marginHorizontal: 8 }}>  {AadharNo} </Text>  
-                </View>  
-              </View>
-
-              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 40 }}>
-                <View stytle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
-                   <Text style={styles.text1}> Mobile No: </Text> 
-                </View>
-                <View  stytle={{flex: 1, justifyContent: 'center', alignItems: 'center', justifyContent: 'center'}}>  
-                   <Text  style={{ marginHorizontal: 20 }} >  {mobile} </Text> 
-                </View>  
-              </View>  
-      </View>  
-
-
-    </View>
-    </Layout>
-   
-      <View style={{flexDirection: 'column',justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 3}}>  
-
-         
-      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'baseline', marginVertical: 20}}> 
-                 <Text style={{fontFamily: 'Montserrat-Light', fontSize: 12, marginHorizontal: 18,  }}> {userId} </Text>  
-      </View> 
-  { display?
-      <TouchableOpacity  style={styles.buttonContainer} activeOpacity={0.6} onPress={() => {createWallet(); setState(true); SetDisplay(false); }}>    
-           <Text style={styles.buttonText}> Generate DID</Text>   
-       </TouchableOpacity>
-        :
-        
-       <TouchableOpacity   style={styles.buttonContainer} activeOpacity={0.6} onPress={sendData}>    
-           <Text style={styles.buttonText}> Share Via Blockchain </Text>   
-       </TouchableOpacity>
-}
-     </View>
-      
-     
-      </Layout>
-    </SafeAreaView> 
-  );
+      { showSpinner?
+          <View style={styles.loading}>
+              <Pulse size={15} color="#000000" />
+          </View>
+          :
+          renderContent()
+      }
+    </SafeAreaView>
+  
+  )
 }; 
 
 const styles = StyleSheet.create({
 
 content: {
   flexDirection: 'column',
+},
+loading: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
 },
 text1: {
   marginVertical: 5,

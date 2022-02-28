@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {View,Text,StyleSheet, Button, TouchableOpacity, Image, Keyboard,  KeyboardAvoidingView, Platform,  SafeAreaView, TouchableWithoutFeedback } from 'react-native';
 import {  Divider, TopNavigation, TopNavigationAction,Icon } from '@ui-kitten/components';
-import OTPInputView from '@twotalltotems/react-native-otp-input'
-import { color } from 'react-native-reanimated';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
 
 const BackIcon = (props) => (
   <Icon {...props} name='arrow-back' /> 
@@ -41,7 +40,7 @@ const OtpVerify = ({props,navigation,route}) => {
     redirect: 'follow'
     }; 
 
-   console.log(requestOptions);
+   //console.log(requestOptions);
     const Verify = () => {
              fetch("https://sandbox.surepass.io/api/v1/aadhaar-v2/submit-otp", requestOptions)
             .then(response => response.text())

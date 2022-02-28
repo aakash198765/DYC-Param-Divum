@@ -35,12 +35,12 @@ export const PassportDrivingSelection = ({ navigation, route }) => {
 
   );
 
-  // navigation from Home to Detail Screen
+  const navigateToAadhaarScanner = () => {
+    navigation.navigate('Scan', { choice: 'aadhaar', title: 'AADHAAR SCANNER', aadhaar_number: aadhaar_number, mobileNumber: mobileNumber });
+  }; 
   const navigateToPassportScanner = () => {
     navigation.navigate('Scan', { choice: 'passport', title: 'PASSPORT SCANNER', aadhaar_number: aadhaar_number, mobileNumber: mobileNumber });
   }; 
-
-  // navigation from Home to Detail Screen
   const navigateToDLScanner = () => {
     navigation.navigate('Scan', { choice: 'dl', title: 'DRIVING LICENCE SCANNER', aadhaar_number: aadhaar_number, mobileNumber: mobileNumber });  
   }; 
@@ -57,10 +57,12 @@ export const PassportDrivingSelection = ({ navigation, route }) => {
       <Text style={{ fontFamily: 'Montserrat-Light', marginTop: 10, fontSize: 14,   }}> Select Any one  </Text> 
       <Text style={{ fontFamily: 'Montserrat-Light', marginVertical: 2, fontSize: 14,   }}> Document Verification to proceed </Text> 
        <View style={{flex: 1, marginVertical: 70}} >
+       <TouchableOpacity onPress={navigateToAadhaarScanner}  style={styles.buttonContainer} activeOpacity={0.6} >   
+           <Text style={styles.buttonText}>Aadhaar</Text>   
+       </TouchableOpacity>
        <TouchableOpacity onPress={navigateToPassportScanner}  style={styles.buttonContainer} activeOpacity={0.6} >   
            <Text style={styles.buttonText}>Passport</Text> 
        </TouchableOpacity>
-
        <TouchableOpacity onPress={navigateToDLScanner}  style={styles.buttonContainer} activeOpacity={0.6} >   
            <Text style={styles.buttonText}>Driving Licence</Text>   
        </TouchableOpacity>

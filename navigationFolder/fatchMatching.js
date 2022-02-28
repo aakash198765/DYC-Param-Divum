@@ -6,17 +6,16 @@ import { Divider, Icon, Layout, TopNavigation, TopNavigationAction, List , ListI
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
-  );
+);
  
-
-  const renderTitle = (props) => (
+const renderTitle = (props) => (
     <View style={{flexDirection: 'row', alignItems: 'center'}}> 
       <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 16}}>Facial Recognizition</Text> 
     </View>
-  );
+);
 
-var image1 = new FaceImage()
-var image2 = new FaceImage() 
+var image1 = new FaceImage();
+var image2 = new FaceImage(); 
 
 export default class FaceMatching extends Component { 
   constructor(props) {
@@ -31,8 +30,8 @@ export default class FaceMatching extends Component {
     this.state = { 
       portrait : portrait,
       imageSet1: image1,
-      aadhaar_number: aadhaar_number,
-      mobileNumber: mobileNumber,
+      aadhaar_number: aadhaar_number || docNo,
+      mobileNumber: mobileNumber || '',
       name: name,
       docNo: docNo, 
       img1: require('../images/portrait.png'), 
@@ -65,6 +64,8 @@ export default class FaceMatching extends Component {
       }, e => { })
     }], { cancelable: true })
   } 
+
+ 
 
   // configure image1 setting so first image can hold the value
   /* setImage1(portrait, imageSet1) {  

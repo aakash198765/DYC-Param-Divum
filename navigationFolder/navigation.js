@@ -5,6 +5,7 @@ import { PassportDrivingSelection } from './passportDriving';
 import   Scanning   from './scanDocument';
 import { Passport } from './passport';
 import { Driving } from './driving';
+import { Aadhaar } from './aadhar';
 import SignIn from './AadhaarSignIn';
 import OtpVerify from './AadhaarOtpVerify';
 import FaceMatching from './fatchMatching';
@@ -32,6 +33,7 @@ const HomeNavigator = () => (
     <Screen name="OtpVerify" component={OtpVerify} />
     <Screen name="passportDrivingSelection" component={PassportDrivingSelection} /> 
     <Screen name='Scan' component={Scanning}  /> 
+    <Screen name="aadhaar" component={Aadhaar} />
     <Screen name='passport' component={Passport}  />
     <Screen name="driving" component={Driving} />
     <Screen name='faceMatching' component={FaceMatching} /> 
