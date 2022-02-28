@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.bitgo.randombytes.RandomBytesPackage;
 import com.reactnativecommunity.androidprogressbar.RNCProgressBarPackage;
 import com.reactApilibrary.DlApiPackage;
 import com.mg.app.PickerPackage;
